@@ -12,7 +12,7 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String username;
-    private String name;
+    private String password;
     private String email;
     private String role;
 
@@ -32,12 +32,12 @@ public class User {
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getPassword() {
+        return password;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
