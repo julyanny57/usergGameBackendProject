@@ -30,4 +30,9 @@ public class UserController {
         return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
     }
 
+    @GetMapping("/username/{username}&&{password}")
+    User getUserByUsernameAndPassword(@PathVariable String username, @PathVariable String password){
+        return userRepository.findByUsernameAndPassword(username, password);
+    }
+
 }
