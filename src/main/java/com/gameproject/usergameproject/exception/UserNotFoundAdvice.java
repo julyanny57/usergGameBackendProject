@@ -19,4 +19,15 @@ public class UserNotFoundAdvice {
         errorMap.put("errorMessage", exception.getMessage());
         return errorMap;
     }
+
+    @ResponseBody
+    @ExceptionHandler(UserByNameAndPasswordNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String,String> exceptionHandlerUserNamePasswordNotFound(UserByNameAndPasswordNotFoundException exception){
+        Map<String,String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", exception.getMessage());
+        return errorMap;
+    }
+
+
 }
