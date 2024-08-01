@@ -1,6 +1,7 @@
 package com.gameproject.usergameproject.controller;
 
 import com.gameproject.usergameproject.exception.UserByNameAndPasswordNotFoundException;
+import com.gameproject.usergameproject.exception.UserByNameExistsException;
 import com.gameproject.usergameproject.exception.UserNotFoundException;
 import com.gameproject.usergameproject.model.User;
 import com.gameproject.usergameproject.repository.UserRepository;
@@ -36,6 +37,15 @@ public class UserController {
         User existingUser = userRepository.findByUsernameAndPassword(username, password);
         if(existingUser == null){
             throw new UserByNameAndPasswordNotFoundException(username);
+        }
+        return existingUser;
+    }
+
+    @GetMapping("/username/{username}")
+    User getUserByUsername(@PathVariable String username){
+        User existingUser = userRepository.findByUsername(username);
+        if(existingUser != null){
+            throw new UserByNameExistsException(username);
         }
         return existingUser;
     }

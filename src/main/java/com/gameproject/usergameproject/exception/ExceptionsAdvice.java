@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class UserNotFoundAdvice {
+public class ExceptionsAdvice {
     @ResponseBody
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -24,6 +24,15 @@ public class UserNotFoundAdvice {
     @ExceptionHandler(UserByNameAndPasswordNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String,String> exceptionHandlerUserNamePasswordNotFound(UserByNameAndPasswordNotFoundException exception){
+        Map<String,String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", exception.getMessage());
+        return errorMap;
+    }
+
+    @ResponseBody
+    @ExceptionHandler(UserByNameExistsException.class)
+    @ResponseStatus(HttpStatus.FOUND)
+    public Map<String,String> exceptionHandlerUserNameExists(UserByNameExistsException exception){
         Map<String,String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", exception.getMessage());
         return errorMap;
