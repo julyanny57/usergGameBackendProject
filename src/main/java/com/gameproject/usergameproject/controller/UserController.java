@@ -17,8 +17,13 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/user")
+    @PostMapping("/adduser")
     User newUser(@RequestBody User newUser){
+        User existingUser = userRepository.findByUsername(newUser.getUsername());
+        if(existingUser != null){
+            throw new UserByNameExistsException(newUser.getUsername());
+        }
+        else
         return userRepository.save(newUser);
     }
 
@@ -32,20 +37,11 @@ public class UserController {
         return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
     }
 
-    @GetMapping("/username/{username}&&{password}")
+    @GetMapping("/loginUser/{username}&&{password}")
     User getUserByUsernameAndPassword(@PathVariable String username, @PathVariable String password){
         User existingUser = userRepository.findByUsernameAndPassword(username, password);
         if(existingUser == null){
             throw new UserByNameAndPasswordNotFoundException(username);
-        }
-        return existingUser;
-    }
-
-    @GetMapping("/username/{username}")
-    User getUserByUsername(@PathVariable String username){
-        User existingUser = userRepository.findByUsername(username);
-        if(existingUser != null){
-            throw new UserByNameExistsException(username);
         }
         return existingUser;
     }
