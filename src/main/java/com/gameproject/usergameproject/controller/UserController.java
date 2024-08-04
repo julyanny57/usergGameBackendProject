@@ -1,11 +1,9 @@
 package com.gameproject.usergameproject.controller;
 
-import com.gameproject.usergameproject.exception.DifferentConfirmPasswordException;
-import com.gameproject.usergameproject.exception.UserByNameAndPasswordNotFoundException;
-import com.gameproject.usergameproject.exception.UserByNameExistsException;
-import com.gameproject.usergameproject.exception.UserNotFoundException;
+import com.gameproject.usergameproject.exception.*;
 import com.gameproject.usergameproject.model.User;
 import com.gameproject.usergameproject.repository.UserRepository;
+import com.gameproject.usergameproject.service.GameUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +15,10 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    private GameUserService gameUserService;
+    public UserController(GameUserService gameUserService) {
+        this.gameUserService = gameUserService;
+    }
 
     @PostMapping("/adduser")
     User newUser(@RequestBody User newUser){
@@ -26,6 +28,9 @@ public class UserController {
         }
         if(!newUser.getPassword().equals(newUser.getConfirmPassword())){
             throw new DifferentConfirmPasswordException();
+        }
+        if(!gameUserService.emailValidation(newUser.getEmail())){
+            throw new EmailValidationException(newUser.getEmail());
         }
         else
         return userRepository.save(newUser);

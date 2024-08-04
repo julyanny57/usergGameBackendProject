@@ -47,5 +47,14 @@ public class ExceptionsAdvice {
         return errorMap;
     }
 
+    @ResponseBody
+    @ExceptionHandler(EmailValidationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String,String> exceptionHandlerEmailValidation(EmailValidationException exception){
+        Map<String,String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", exception.getMessage());
+        return errorMap;
+    }
+
 
 }
