@@ -1,5 +1,6 @@
 package com.gameproject.usergameproject.controller;
 
+import com.gameproject.usergameproject.exception.DifferentConfirmPasswordException;
 import com.gameproject.usergameproject.exception.UserByNameAndPasswordNotFoundException;
 import com.gameproject.usergameproject.exception.UserByNameExistsException;
 import com.gameproject.usergameproject.exception.UserNotFoundException;
@@ -22,6 +23,9 @@ public class UserController {
         User existingUser = userRepository.findByUsername(newUser.getUsername());
         if(existingUser != null){
             throw new UserByNameExistsException(newUser.getUsername());
+        }
+        if(!newUser.getPassword().equals(newUser.getConfirmPassword())){
+            throw new DifferentConfirmPasswordException();
         }
         else
         return userRepository.save(newUser);

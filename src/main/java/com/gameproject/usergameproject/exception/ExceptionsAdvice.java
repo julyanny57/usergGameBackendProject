@@ -38,5 +38,14 @@ public class ExceptionsAdvice {
         return errorMap;
     }
 
+    @ResponseBody
+    @ExceptionHandler(DifferentConfirmPasswordException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String,String> exceptionHandlerDifferentConfirmPassword(DifferentConfirmPasswordException exception){
+        Map<String,String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", exception.getMessage());
+        return errorMap;
+    }
+
 
 }
